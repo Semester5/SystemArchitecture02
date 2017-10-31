@@ -1,11 +1,10 @@
-package pic;
+package imaging.filter;
 
 import com.sun.media.jai.widget.DisplayJAI;
 import pmp.filter.DataTransformationFilter2;
 import pmp.interfaces.Readable;
 import pmp.interfaces.Writeable;
 
-import javax.media.jai.JAI;
 import javax.media.jai.PlanarImage;
 import javax.swing.*;
 import java.awt.*;
@@ -26,25 +25,25 @@ public class DisplayFilter extends DataTransformationFilter2<PlanarImage, Planar
         JFrame frame = new JFrame();
         frame.setTitle("DisplayJAI: loetstellen.jpg");
 
-// Get the JFrame ContentPane.
+        // Get the JFrame ContentPane.
         Container contentPane = frame.getContentPane();
         contentPane.setLayout(new BorderLayout());
 
 
-// Create an instance of DisplayJAI.
+        // Create an instance of DisplayJAI.
         DisplayJAI dj = new DisplayJAI(entity);
 
 
-// Add to the JFrame ContentPane an instance of JScrollPane
-// containing the DisplayJAI instance.
+        // Add to the JFrame ContentPane an instance of JScrollPane
+        // containing the DisplayJAI instance.
         contentPane.add(new JScrollPane(dj),BorderLayout.CENTER);
 
-// Add a text label with the image information.
+        // Add a text label with the image information.
         //contentPane.add(new JLabel(imageInfo),BorderLayout.SOUTH);
 
-// Set the closing operation so the application is finished.
+        // Set the closing operation so the application is finished.
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400,200); // adjust the frame size.
+        frame.setSize(500,500); // adjust the frame size.
         frame.setVisible(true); // show the frame.
         return entity;
     }

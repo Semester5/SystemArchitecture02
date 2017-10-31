@@ -1,4 +1,4 @@
-package pic;
+package imaging;
 
 import pmp.filter.Sink;
 

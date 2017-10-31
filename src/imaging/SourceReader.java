@@ -1,4 +1,4 @@
-package pic;
+package imaging;
 
 import pmp.filter.Source;
 import pmp.interfaces.Writeable;
@@ -13,6 +13,8 @@ import java.security.InvalidParameterException;
  */
 public class SourceReader extends Source<PlanarImage>{
 
+    public static final String INPUTFILE = "Inputfiles\\loetstellen.jpg";
+
     public SourceReader() {
     }
 
@@ -22,6 +24,11 @@ public class SourceReader extends Source<PlanarImage>{
 
     @Override
     public PlanarImage read() throws StreamCorruptedException {
-         return JAI.create("fileload", "Inputfiles\\loetstellen.jpg");
+        if(ENDING_SIGNAL == null) {
+            PlanarImage image =  JAI.create("fileload", INPUTFILE);
+            ENDING_SIGNAL = 1;
+            return image;
+        }
+        return null;
     }
 }

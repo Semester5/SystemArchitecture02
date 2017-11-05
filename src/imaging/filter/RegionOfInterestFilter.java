@@ -11,14 +11,39 @@ import java.security.InvalidParameterException;
 
 public class RegionOfInterestFilter extends DataTransformationFilter2<PlanarImage, PlanarImage> {
 
-    public RegionOfInterestFilter(Readable<PlanarImage> input, Writeable<PlanarImage> output) throws InvalidParameterException {
+    private int x;
+    private int y;
+    private int width;
+    private int height;
+
+    public RegionOfInterestFilter(int x, int y, int width, int height, Readable<PlanarImage> input, Writeable<PlanarImage> output) throws InvalidParameterException {
         super(input, output);
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+    }
+
+    public RegionOfInterestFilter(int x, int y, int width, int height, Readable<PlanarImage> input) throws InvalidParameterException {
+        super(input);
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+    }
+
+    public RegionOfInterestFilter(int x, int y, int width, int height, Writeable<PlanarImage> output) throws InvalidParameterException {
+        super(output);
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
     }
 
 
     @Override
     protected PlanarImage process(PlanarImage entity) {
-        Rectangle rectangle = new Rectangle(0, 0, 500, 170);
+        Rectangle rectangle = new Rectangle(x, y, width, height);
         return PlanarImage.wrapRenderedImage((RenderedImage) entity.getAsBufferedImage(rectangle, entity.getColorModel()));
     }
 }

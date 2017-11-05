@@ -19,6 +19,14 @@ public class DisplayFilter extends DataTransformationFilter2<PlanarImage, Planar
         super(input, output);
     }
 
+    public DisplayFilter(Readable<PlanarImage> input) throws InvalidParameterException {
+        super(input);
+    }
+
+    public DisplayFilter(Writeable<PlanarImage> output) throws InvalidParameterException {
+        super(output);
+    }
+
     @Override
     protected PlanarImage process(PlanarImage entity) {
         // Create a frame for display.

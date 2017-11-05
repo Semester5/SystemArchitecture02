@@ -83,13 +83,9 @@ public abstract class AbstractFilter<in, out> implements IOable<in, out>, Runnab
         }
     }
 
-    
     /**
      * derived class may override this, if they are interested in 
      * getting informed before the ending-signal is sent
      */
     protected void beforeSendingEndingSignal() throws StreamCorruptedException {}
-    
-    
-
 }

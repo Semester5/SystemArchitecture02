@@ -67,6 +67,4 @@ public abstract class Source<T> implements Readable<T>, Runnable{
             e.printStackTrace();
         }
     }
-	
-    
 }

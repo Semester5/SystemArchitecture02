@@ -1,6 +1,7 @@
 import imaging.filter.DisplayFilter;
 import imaging.SourceReader;
 import imaging.TestSink;
+import imaging.filter.MedianFilter;
 import imaging.filter.RegionOfInterestFilter;
 import imaging.filter.ThresholdFilter;
 import pmp.interfaces.Writeable;
@@ -22,9 +23,15 @@ public class Main {
 
         TestSink testSink = new TestSink();
         SimplePipe<PlanarImage> pipeDisplayToSink = new SimplePipe<PlanarImage>(testSink);
-        DisplayFilter displayFilter = new DisplayFilter((Writeable) pipeDisplayToSink);
+        DisplayFilter displayFilter3 = new DisplayFilter((Writeable) pipeDisplayToSink);
 
-        SimplePipe<PlanarImage> pipeThresholdToDisplay = new SimplePipe<>((Writeable<PlanarImage>) displayFilter);
+        SimplePipe<PlanarImage> pipeMedianToDisplay = new SimplePipe<>((Writeable<PlanarImage>) displayFilter3);
+        MedianFilter medianFilter = new MedianFilter((Writeable) pipeMedianToDisplay);
+
+        SimplePipe<PlanarImage> pipeDisplayToMedian = new SimplePipe<>((Writeable<PlanarImage>) medianFilter);
+        DisplayFilter displayFilter2 = new DisplayFilter((Writeable) pipeDisplayToMedian);
+
+        SimplePipe<PlanarImage> pipeThresholdToDisplay = new SimplePipe<>((Writeable<PlanarImage>) displayFilter2);
         ThresholdFilter thresholdFilter = new ThresholdFilter((Writeable) pipeThresholdToDisplay);
 
         SimplePipe<PlanarImage> pipeROIToThreshold = new SimplePipe<>((Writeable<PlanarImage>) thresholdFilter);
@@ -37,6 +44,5 @@ public class Main {
         SourceReader sourceReader = new SourceReader(pipeSourceToDisplay);
 
         sourceReader.run();
-
     }
 }

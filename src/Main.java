@@ -1,4 +1,5 @@
 import CalcCentroidsFilterPkg.CalcCentroidsFilter;
+import CalcCentroidsFilterPkg.Coordinate;
 import imaging.filter.*;
 import imaging.SourceReader;
 import imaging.TestSink;
@@ -6,6 +7,7 @@ import pmp.interfaces.Writeable;
 import pmp.pipes.SimplePipe;
 
 import javax.media.jai.PlanarImage;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -22,7 +24,7 @@ public class Main {
         //PUSH
         QualityControllFilter qualityFilter = new QualityControllFilter(2,2);
 
-        SimplePipe<LinkedList<CalcCentroidsFilterPkg.Coordinate>> pipeCalcCentroidsToQuality = new SimplePipe<>(qualityFilter);
+        SimplePipe<ArrayList<Coordinate>> pipeCalcCentroidsToQuality = new SimplePipe<>(qualityFilter);
         CalcCentroidsFilter calcCentroidsFilter = new CalcCentroidsFilter((Writeable) pipeCalcCentroidsToQuality);
 
         SimplePipe<PlanarImage> pipeSaveToCalcCentroids = new SimplePipe<>((Writeable<PlanarImage>) calcCentroidsFilter);

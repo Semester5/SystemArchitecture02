@@ -1,5 +1,6 @@
 package CalcCentroidsFilterPkg;
 
+import org.omg.CORBA.Object;
 import pmp.filter.DataTransformationFilter2;
 import pmp.interfaces.Readable;
 import pmp.interfaces.Writeable;
@@ -12,15 +13,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class CalcCentroidsFilter extends DataTransformationFilter2<PlanarImage, ArrayList<Coordinate>> {
+public class CalcCentroidsFilter  extends DataTransformationFilter2<PlanarImage, ArrayList<Coordinate>> {
 
     private HashMap<Coordinate, Boolean> _general = new HashMap<Coordinate, Boolean>();
     private LinkedList<ArrayList<Coordinate>> _figures = new LinkedList<ArrayList<Coordinate>>();
     private javax.media.jai.PlanarImage _image;
-
-    public CalcCentroidsFilter(Readable<PlanarImage> input, Writeable<ArrayList<Coordinate>> output) throws InvalidParameterException {
-        super(input, output);
-    }
 
     public CalcCentroidsFilter(Readable<PlanarImage> input) throws InvalidParameterException {
         super(input);
@@ -30,8 +27,9 @@ public class CalcCentroidsFilter extends DataTransformationFilter2<PlanarImage, 
         super(output);
     }
 
-    @Override
+
     protected ArrayList<Coordinate> process(PlanarImage entity) {
+        _image = entity;
         BufferedImage bi = entity.getAsBufferedImage();
 
         for (int x = 0; x < bi.getWidth(); x++) {
@@ -97,8 +95,7 @@ public class CalcCentroidsFilter extends DataTransformationFilter2<PlanarImage, 
             int xMedian = xValues.get(xValues.size() / 2);
             int yMedian = yValues.get(yValues.size() / 2);
 
-            centroids.add(new Coordinate(xMedian + (int) _image.getProperty("offsetX"), yMedian + (int) _image.getProperty("offsetY")));
-
+            centroids.add(new Coordinate(xMedian + (Integer) _image.getProperty("offsetX"), yMedian + (Integer) _image.getProperty("offsetY")));
             i++;
         }
         return centroids;

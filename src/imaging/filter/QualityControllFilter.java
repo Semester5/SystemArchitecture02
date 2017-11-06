@@ -11,9 +11,10 @@ import javax.media.jai.PlanarImage;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class QualityControllFilter extends Sink<LinkedList<Coordinate>> {
+public class QualityControllFilter extends Sink<ArrayList<Coordinate>> {
 
     int xTolerance;
     int yTolerance;
@@ -24,23 +25,30 @@ public class QualityControllFilter extends Sink<LinkedList<Coordinate>> {
         this.yTolerance = yTolerance;
     }
 
-    public QualityControllFilter(int xTolerance, int yTolerance, Readable<LinkedList<Coordinate>> input) throws InvalidParameterException {
+    public QualityControllFilter(int xTolerance, int yTolerance, Readable<ArrayList<Coordinate>> input) throws InvalidParameterException {
         super(input);
         this.xTolerance = xTolerance;
         this.yTolerance = yTolerance;
     }
 
     @Override
-    public void write(LinkedList<Coordinate> coordinates) throws StreamCorruptedException {
+    public void write(ArrayList<Coordinate> coordinates) throws StreamCorruptedException {
+
+        if(coordinates == null) {
+            return;
+        }
 
         File outputFile = new File("Outputfiles", "tolerances.txt");
 
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile)))
         {
-            bw.write("TEST");
+            for(Coordinate coordinate : coordinates) {
+                bw.write("x: " + coordinate._x + ", y: " + coordinate._y + System.lineSeparator());
+            }
         }
         catch(Exception e)
         {
+            e.printStackTrace();
         }
     }
 }

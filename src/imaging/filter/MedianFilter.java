@@ -28,7 +28,6 @@ public class MedianFilter extends DataTransformationFilter2<PlanarImage, PlanarI
 
     @Override
     protected PlanarImage process(PlanarImage entity) {
-        RenderedOp renderableOp =  MedianFilterDescriptor.create(entity, MedianFilterDescriptor.MEDIAN_MASK_SQUARE, 6, null);
-        return renderableOp;
+        return  MedianFilterDescriptor.create(entity, MedianFilterDescriptor.MEDIAN_MASK_SQUARE, 6, null);
     }
 }

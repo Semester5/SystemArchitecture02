@@ -44,6 +44,9 @@ public class RegionOfInterestFilter extends DataTransformationFilter2<PlanarImag
     @Override
     protected PlanarImage process(PlanarImage entity) {
         Rectangle rectangle = new Rectangle(x, y, width, height);
-        return PlanarImage.wrapRenderedImage((RenderedImage) entity.getAsBufferedImage(rectangle, entity.getColorModel()));
+        PlanarImage planarImage = PlanarImage.wrapRenderedImage((RenderedImage) entity.getAsBufferedImage(rectangle, entity.getColorModel()));
+        planarImage.setProperty("offsetX", x);
+        planarImage.setProperty("offsetY", y);
+        return planarImage;
     }
 }

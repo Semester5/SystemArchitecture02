@@ -1,3 +1,4 @@
+import CalcCentroidsFilter.CalcCentroidsFilter;
 import imaging.filter.*;
 import imaging.SourceReader;
 import imaging.TestSink;
@@ -6,6 +7,7 @@ import pmp.pipes.SimplePipe;
 
 import javax.media.jai.PlanarImage;
 import javax.media.jai.operator.ThresholdDescriptor;
+import java.util.LinkedList;
 
 /**
  * Created by Christina on 30.10.2017.
@@ -19,16 +21,25 @@ public class Main {
         int height = 70;
 
         TestSink testSink = new TestSink();
-        SimplePipe<PlanarImage> pipeDisplayToSink = new SimplePipe<PlanarImage>(testSink);
-        DisplayFilter displayFilter3 = new DisplayFilter((Writeable) pipeDisplayToSink);
+        //SimplePipe<PlanarImage> pipeDisplayToSink = new SimplePipe<PlanarImage>(testSink);
+        //DisplayFilter displayFilter4 = new DisplayFilter((Writeable) pipeDisplayToSink);
 
-        SimplePipe<PlanarImage> pipeOpeningToDisplay = new SimplePipe<>((Writeable<PlanarImage>) displayFilter3);
+        SimplePipe<PlanarImage> pipeQualityToSink = new SimplePipe<>((Writeable<PlanarImage>) testSink);
+        QualityControllFilter qualityFilter = new QualityControllFilter((Writeable) pipeQualityToSink);
+
+        SimplePipe<CalcCentroidsFilter.Coordinate[]> pipeCalcCentroidsToQuality = new SimplePipe<>((Writeable<CalcCentroidsFilter.Coordinate[]>) qualityFilter);
+        CalcCentroidsFilter calcCentroidsFilter = new CalcCentroidsFilter((Writeable) pipeCalcCentroidsToQuality);
+
+        SimplePipe<PlanarImage> pipeSaveToCalcCentroids = new SimplePipe<>((Writeable<PlanarImage>) calcCentroidsFilter);
+        SaveFilter saveFilter = new SaveFilter((Writeable) pipeSaveToCalcCentroids);
+
+        SimplePipe<PlanarImage> pipeOpeningToDisplay = new SimplePipe<>((Writeable<PlanarImage>) saveFilter);
         OpeningFilter openingFilter = new OpeningFilter((Writeable) pipeOpeningToDisplay);
 
-        //SimplePipe<PlanarImage> pipeDisplayToOpening = new SimplePipe<>((Writeable<PlanarImage>) medianFilter);
-        //DisplayFilter displayFilter3 = new DisplayFilter((Writeable) pipeDisplayToOpening);
+        SimplePipe<PlanarImage> pipeDisplayToOpening = new SimplePipe<>((Writeable<PlanarImage>) openingFilter);
+        DisplayFilter displayFilter3 = new DisplayFilter((Writeable) pipeDisplayToOpening);
 
-        SimplePipe<PlanarImage> pipeMedianToDisplay = new SimplePipe<>((Writeable<PlanarImage>) openingFilter);
+        SimplePipe<PlanarImage> pipeMedianToDisplay = new SimplePipe<>((Writeable<PlanarImage>) displayFilter3);
         MedianFilter medianFilter = new MedianFilter((Writeable) pipeMedianToDisplay);
 
         SimplePipe<PlanarImage> pipeDisplayToMedian = new SimplePipe<>((Writeable<PlanarImage>) medianFilter);

@@ -27,7 +27,6 @@ public class OpeningFilter extends DataTransformationFilter2<PlanarImage, Planar
         super(output);
     }
 
-
     @Override
     protected PlanarImage process(PlanarImage entity) {
         float[] kernelMatrix = new float[] {1, 1, 1, 1, 1,
@@ -36,13 +35,11 @@ public class OpeningFilter extends DataTransformationFilter2<PlanarImage, Planar
                 1, 1, 1, 1, 1,
                 1, 1, 1, 1, 1};
 
-        float[] kernelMatrix1 = new float[] {1, 1, 1,
-                1, 1, 1,
-                1, 1, 1};
-        KernelJAI kernel = new KernelJAI(3, 3, kernelMatrix1);
-
+        KernelJAI kernel = new KernelJAI(5, 5, kernelMatrix);
         RenderedOp renderedOp = ErodeDescriptor.create(entity, kernel, null);
+        renderedOp = ErodeDescriptor.create(renderedOp , kernel, null);
         renderedOp = DilateDescriptor.create(renderedOp, kernel, null);
-        return renderedOp.createInstance();
+        renderedOp = DilateDescriptor.create(renderedOp, kernel, null);
+        return renderedOp;
     }
 }

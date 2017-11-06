@@ -41,6 +41,6 @@ public class ThresholdFilter extends DataTransformationFilter2<PlanarImage, Plan
         double[] constant = new double[] { 255 }; //weiß
 
         RenderedOp renderableOp = ThresholdDescriptor.create(entity, low, high, constant, null);
-        return renderableOp.createInstance();
+        return renderableOp;
     }
 }

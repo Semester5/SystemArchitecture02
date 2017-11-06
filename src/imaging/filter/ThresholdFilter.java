@@ -36,9 +36,9 @@ public class ThresholdFilter extends DataTransformationFilter2<PlanarImage, Plan
     protected PlanarImage process(PlanarImage entity) {
 
         //Alles zwischen low und high wird weiß angezeigt (=constant)
-        double[] low = new double[] { 0 };
+        double[] low = new double[] { 0 }; //schwarz
         double[] high = new double[] { 30 };
-        double[] constant = new double[] { 255 };
+        double[] constant = new double[] { 255 }; //weiß
 
         RenderedOp renderableOp = ThresholdDescriptor.create(entity, low, high, constant, null);
         return renderableOp.createInstance();

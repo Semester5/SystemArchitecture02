@@ -4,6 +4,8 @@ import pmp.filter.DataTransformationFilter2;
 import pmp.interfaces.Readable;
 import pmp.interfaces.Writeable;
 
+import javax.media.jai.ImageLayout;
+import javax.media.jai.JAI;
 import javax.media.jai.PlanarImage;
 import javax.media.jai.RenderedOp;
 import javax.media.jai.operator.MedianFilterDescriptor;
@@ -26,7 +28,7 @@ public class MedianFilter extends DataTransformationFilter2<PlanarImage, PlanarI
 
     @Override
     protected PlanarImage process(PlanarImage entity) {
-        RenderedOp renderableOp =  MedianFilterDescriptor.create(entity, MedianFilterDescriptor.MEDIAN_MASK_SQUARE_SEPARABLE, 1, null);
+        RenderedOp renderableOp =  MedianFilterDescriptor.create(entity, MedianFilterDescriptor.MEDIAN_MASK_SQUARE, 6, null);
         return renderableOp.createInstance();
     }
 }

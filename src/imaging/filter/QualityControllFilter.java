@@ -1,32 +1,46 @@
 package imaging.filter;
 
+import CalcCentroidsFilterPkg.Coordinate;
 import pmp.filter.DataTransformationFilter2;
+import pmp.filter.Sink;
 import pmp.interfaces.Readable;
 import pmp.interfaces.Writeable;
 
 import javax.imageio.ImageIO;
 import javax.media.jai.PlanarImage;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.*;
 import java.security.InvalidParameterException;
+import java.util.LinkedList;
 
-public class QualityControllFilter extends DataTransformationFilter2<PlanarImage, PlanarImage> {
-    public QualityControllFilter(Readable<PlanarImage> input, Writeable<PlanarImage> output) throws InvalidParameterException {
-        super(input, output);
+public class QualityControllFilter extends Sink<LinkedList<Coordinate>> {
+
+    int xTolerance;
+    int yTolerance;
+
+    public QualityControllFilter(int xTolerance, int yTolerance) throws InvalidParameterException {
+        super();
+        this.xTolerance = xTolerance;
+        this.yTolerance = yTolerance;
     }
 
-    public QualityControllFilter(Readable<PlanarImage> input) throws InvalidParameterException {
+    public QualityControllFilter(int xTolerance, int yTolerance, Readable<LinkedList<Coordinate>> input) throws InvalidParameterException {
         super(input);
-    }
-
-    public QualityControllFilter(Writeable<PlanarImage> output) throws InvalidParameterException {
-        super(output);
+        this.xTolerance = xTolerance;
+        this.yTolerance = yTolerance;
     }
 
     @Override
-    protected PlanarImage process(PlanarImage entity) {
+    public void write(LinkedList<Coordinate> coordinates) throws StreamCorruptedException {
 
-        QualityControllFilter
-        return null;
+        File outputFile = new File("Outputfiles", "tolerances.txt");
+
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(outputFile)))
+        {
+            bw.write("TEST");
+        }
+        catch(Exception e)
+        {
+        }
     }
 }

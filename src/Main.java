@@ -14,9 +14,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-/**
- * Created by Christina on 30.10.2017.
- */
 public class Main {
     public static void main(String[] args) {
 
@@ -58,9 +55,9 @@ public class Main {
                 SaveFilter saveFilter = new SaveFilter((Writeable) pipeSaveToCalcCentroids);
 
                 SimplePipe<PlanarImage> pipeTest = new SimplePipe<>((Writeable<PlanarImage>) saveFilter);
-                DisplayFilter displayFilter7 = new DisplayFilter((Writeable) pipeTest);
+                DisplayFilter displayFilter4 = new DisplayFilter((Writeable) pipeTest);
 
-                SimplePipe<PlanarImage> pipeOpeningToDisplay = new SimplePipe<>((Writeable<PlanarImage>) displayFilter7);
+                SimplePipe<PlanarImage> pipeOpeningToDisplay = new SimplePipe<>((Writeable<PlanarImage>) displayFilter4);
                 OpeningFilter openingFilter = new OpeningFilter((Writeable) pipeOpeningToDisplay);
 
                 SimplePipe<PlanarImage> pipeDisplayToOpening = new SimplePipe<>((Writeable<PlanarImage>) openingFilter);
@@ -89,21 +86,33 @@ public class Main {
             } else if ("pull".equals(mode.toLowerCase())) {
 
                 SourceReader sourceReader = new SourceReader();
-                SimplePipe<PlanarImage> pipeROIFromSourceReader = new SimplePipe<>(sourceReader);
+                SimplePipe<PlanarImage> pipeDisplayFromSourceReader = new SimplePipe<>(sourceReader);
 
-                RegionOfInterestFilter regionOfInterestFilter = new RegionOfInterestFilter(x, y, width, height, (Readable) pipeROIFromSourceReader);
+                DisplayFilter displayFilter4 = new DisplayFilter((Readable) pipeDisplayFromSourceReader);
+                SimplePipe<PlanarImage> pipeRoiFromDisplay = new SimplePipe<>((Readable) displayFilter4);
+
+                RegionOfInterestFilter regionOfInterestFilter = new RegionOfInterestFilter(x, y, width, height, (Readable) pipeRoiFromDisplay);
                 SimplePipe<PlanarImage> pipeThresholdFromRoi = new SimplePipe<>((Readable) regionOfInterestFilter);
 
                 ThresholdFilter thresholdFilter = new ThresholdFilter((Readable) pipeThresholdFromRoi);
-                SimplePipe<PlanarImage> pipeMedianFromTreshold = new SimplePipe<>((Readable) thresholdFilter);
+                SimplePipe<PlanarImage> pipeDisplayFromTreshold = new SimplePipe<>((Readable) thresholdFilter);
 
-                MedianFilter medianFilter = new MedianFilter((Readable) pipeMedianFromTreshold);
-                SimplePipe<PlanarImage> pipeOpeningFromMedian = new SimplePipe<>((Readable) medianFilter);
+                DisplayFilter displayFilter3 = new DisplayFilter((Readable) pipeDisplayFromTreshold);
+                SimplePipe<PlanarImage> pipeMedianFromDisplay = new SimplePipe<>((Readable) displayFilter3);
 
-                OpeningFilter openingFilter = new OpeningFilter((Readable) pipeOpeningFromMedian);
-                SimplePipe<PlanarImage> pipeSaveFromOpening = new SimplePipe<>((Readable) openingFilter);
+                MedianFilter medianFilter = new MedianFilter((Readable) pipeMedianFromDisplay);
+                SimplePipe<PlanarImage> pipeDisplayFromMedian = new SimplePipe<>((Readable) medianFilter);
 
-                SaveFilter saveFilter = new SaveFilter((Readable) pipeSaveFromOpening);
+                DisplayFilter displayFilter2 = new DisplayFilter((Readable) pipeDisplayFromMedian);
+                SimplePipe<PlanarImage> pipeOpeingFromDisplay = new SimplePipe<>((Readable) displayFilter2);
+
+                OpeningFilter openingFilter = new OpeningFilter((Readable) pipeOpeingFromDisplay);
+                SimplePipe<PlanarImage> pipeDisplayFromOpening = new SimplePipe<>((Readable) openingFilter);
+
+                DisplayFilter displayFilter1 = new DisplayFilter((Readable) pipeDisplayFromOpening);
+                SimplePipe<PlanarImage> pipeSaveFromDisplay = new SimplePipe<>((Readable) displayFilter1);
+
+                SaveFilter saveFilter = new SaveFilter((Readable) pipeSaveFromDisplay);
                 SimplePipe<PlanarImage> pipeCalcCentroidsFromSave = new SimplePipe<>((Readable) saveFilter);
 
                 CalcCentroidsFilter calcCentroidsFilter = new CalcCentroidsFilter((Readable) pipeCalcCentroidsFromSave);

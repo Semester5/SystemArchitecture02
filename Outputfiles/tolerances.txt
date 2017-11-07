@@ -1,7 +1,30 @@
-x: 9, y: 78
-x: 72, y: 77
-x: 136, y: 81
-x: 201, y: 81
-x: 265, y: 80
-x: 330, y: 82
-x: 395, y: 80
+Auswertung Bildverarbeitung
+
+Es wurden 7 Scheiben gefunden.
+Gefundene Zentren: 
+x: 9	y: 78
+x: 72	y: 77
+x: 136	y: 81
+x: 201	y: 81
+x: 265	y: 80
+x: 330	y: 82
+x: 395	y: 80
+
+
+Max. x-Toleranz: 2
+Max. y-Toleranz: 2
+
+1. Scheibe:	x-Soll: 10	x-Ist: 9	OK
+1. Scheibe:	y-Soll: 80	y-Ist: 78	OK
+2. Scheibe:	x-Soll: 73	x-Ist: 72	OK
+2. Scheibe:	y-Soll: 77	y-Ist: 77	OK
+3. Scheibe:	x-Soll: 110	x-Ist: 136	FAIL
+3. Scheibe:	y-Soll: 80	y-Ist: 81	OK
+4. Scheibe:	x-Soll: 202	x-Ist: 201	OK
+4. Scheibe:	y-Soll: 80	y-Ist: 81	OK
+5. Scheibe:	x-Soll: 265	x-Ist: 265	OK
+5. Scheibe:	y-Soll: 79	y-Ist: 80	OK
+6. Scheibe:	x-Soll: 330	x-Ist: 330	OK
+6. Scheibe:	y-Soll: 81	y-Ist: 82	OK
+7. Scheibe:	x-Soll: 396	x-Ist: 395	OK
+7. Scheibe:	y-Soll: 81	y-Ist: 80	OK
